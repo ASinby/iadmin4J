@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sinby.demo.dao.CraneStatusDao">
+
+    <!-- 获取 -->
+    <select id="getCraneNowData" parameterType="hashmap" resultType="craneStatus">
+        SELECT
+            SEQ as "seq",
+            GWD as "gwd",
+            GWDMC as "gwdmc",
+            WLWZ_X as "wlwzX",
+            WLWZ_Y as "wlwzY",
+            WLWZ_Z as "wlwzZ",
+            WEIGHT as "weight",
+            LOC as "loc",
+            LOC_DESC as "locDesc",
+            LDNO as "ldno",
+            LD_STATUS as "ldStatus",
+            TO_CHAR(TM,'yyyy-MM-dd HH24:mi:ss') as "tm"
+        FROM WLUSER.CRANE_STATUS
+        <where>
+            <if test="gwd != null">
+                GWD = #{gwd}
+            </if>
+        </where>
+
+    </select>
+
+    <!-- 计算作业时长 -->
+    <update id="calculateWorkTm">
+        UPDATE WLUSER.CRANE_CMD SET WORK_SPAN=TIMESTAMPDIFF(2,DOWN_TIME-UP_TIME) WHERE 1=1
+    </update>
+    
+    <!-- 为插入用，获取两工位点间最小作业时间 -->
+    <select id="getMinTmForInsert" resultType="hashmap">
+        SELECT T1.DDD as "startDestLoc", MIN(T1.WORK_SPAN) as "minTm", T1.KUAO as "kuano"
+        FROM (SELECT START_LOC || '->' || DEST_LOC                                 as "DDD",
+                     WORK_SPAN,
+                     (SELECT KUANO FROM WLUSER.GWD_LOCATION WHERE GWD = START_LOC) as "KUAO"
+              FROM WLUSER.CRANE_CMD
+              WHERE START_LOC != DEST_LOC) T1
+        GROUP BY T1.DDD, T1.KUAO
+        ORDER BY T1.KUAO
+    </select>
+
+    <!-- 检验是否已存在最小时长 -->
+    <select id="checkExistOfMinTm" resultType="hashmap" parameterType="hashmap">
+        SELECT SD_ID as "sdId", START_DEST_LOC as "startDestLoc", MIN_TM as "minTm" FROM WLUSER.CRANE_WORK_MIN_TM
+        <where>
+            <if test="startDestLoc != null">
+                START_DEST_LOC = #{startDestLoc}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入最小作业时长 -->
+    <insert id="insertMinTm" parameterType="hashmap">
+        INSERT INTO WLUSER.CRANE_WORK_MIN_TM(START_DEST_LOC, MIN_TM, KUANO) VALUES (#{startDestLoc}, #{minTm}, #{kuano})
+    </insert>
+
+    <!-- 修改最小作业时长 -->
+    <update id="updateMinTm" parameterType="hashmap">
+        UPDATE WLUSER.CRANE_WORK_MIN_TM SET MIN_TM = #{minTm} WHERE START_DEST_LOC = #{startDestLoc}
+    </update>
+
+    <!-- 从CRANEM_CMD中获取命令号、吊起放下时间 -->
+    <select id="getUpDownTimeForInsert" resultType="cranetimecensus">
+        SELECT CMDNO     as "cmdno",
+               CRNO      as "crno",
+               LDNO      as "ldno",
+               START_LOC as "startLoc",
+               DEST_LOC  as "destLoc",
+               TO_CHAR(UP_TIME,'yyyy-MM-dd HH24:mi:ss')   as "upTime",
+               TO_CHAR(DOWN_TIME,'yyyy-MM-dd HH24:mi:ss') as "downTime",
+               WORK_SPAN as "workTm"
+        FROM WLUSER.CRANE_CMD
+        WHERE WORK_STATUS IN(3) AND CRNO NOT LIKE 'HC1%' AND (LDNO IS NOT NULL AND LDNO !='') AND START_LOC!=DEST_LOC AND TM > (SELECT MIN(TM) FROM WLUSER.CRANE_STATUS_HIS)
+        ORDER BY CMDNO
+    </select>
+
+    <!-- 向CRANE_TIME_CENSUS插入吊起放下时间 -->
+    <insert id="insertUpDownTime" parameterType="hashmap">
+        INSERT INTO WLUSER.CRANE_TIME_CENSUS(CMDNO,CRNO,LDNO,START_LOC,DEST_LOC,UP_TIME,DOWN_TIME,WORK_TM)
+        VALUES (#{cmdno}, #{crno}, #{ldno}, #{startLoc}, #{destLoc}, #{upTime}, #{downTime}, #{workTm})
+    </insert>
+
+    <!-- 修改CRANE_TIME_CENSUS中相关数据 -->
+    <update id="updateUpDownTime" parameterType="hashmap">
+        UPDATE WLUSER.CRANE_WORK_MIN_TM SET MIN_TM = #{minTm} WHERE START_DEST_LOC = #{startDestLoc}
+    </update>
+</mapper>
