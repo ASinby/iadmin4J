@@ -1,72 +1,30 @@
 # 一、工程简介
 
-+ 统计行车各种作业时长
++ RH模型后台数据接口
 
 # 二、延伸阅读
 
++ 接口类型采用常用的RESTful风格
 ```text
-    考虑一下使用程序逻辑统计行车一些时间信息（用于自动配包）
-    
-    对于工位点的行车一些时间如下：
-    准备时间：从行车到达吊运点开始，到行车吊起东西的时间
-    
-    吊起时间：从吊起包开始，到离开工位的时间
-    
-    避让时间：行车实际作业时长-行车预计作业时间（两点之间距离除以行车行驶速度）
+1. GET（SELECT）：从服务器取出资源（一项或多项）；
+
+2. POST（CREATE）：在服务器新建一个资源；
+
+3. PUT（UPDATE）：在服务器更新资源（客户端提供改变后的完整资源）；
+
+4. PATCH（UPDATE）：在服务器更新资源（客户端提供改变的属性）；
+
+5. DELETE（DELETE）：从服务器删除资源；
+
+6. HEAD：获取资源的元数据；
+
+7. OPTIONS：获取信息，关于资源的哪些属性是客户端可以改变的。
 ```
 
-# 三、拆解分析
++ 加入Swagger，可通过 [SwaggerUI](http://localhost:8088/iadmin4J/swagger-ui.html) 查看接口信息
 
-## 1、准备时长
+# 三、开发笔记
 
-    吊起时间 - 到达工位点时间（大车位置不变）
-    
-    吊起时间在行车指令里面；    √
-    到达工位点时间（大车位置有变到不变）——以吊起时间为切入点，向前找到大车坐标发生变化的拐点
-
-## 2、吊起时长
-
-    离开工位点时间（大车位置有不变到变） - 吊起时间
-    
-    离开工位点时间（大车位置有不变到变）——以吊起时间为切入点，向后找到大车坐标发生变化的拐点
-    吊起时间在行车指令里面；    √
-
-## 3、避让时长
-
-+ A、实际作业时长
-
-
-    行车作业指令表中，放下时间-吊起时间即是！   √
-
-+ B、不发生避让作业时长
-
-
-    取每对工位行车的‘实际作业时长’中最短的    √
-
-# 四、表结构设计
-
-## 1、CRANE_TIME_CENSUS  行车时间统计
-```sql
-    CMDNO       DECIMAL 8   命令号
-    CRNO        VARCHAR 8   行车号
-    LDNO        VARCHAR 8   包号
-    START_LOC   VARCHAR 8   起点
-    DEST_LOC    VARCHAR 8   终点
-    ARRIVE_TIME TIMESTAMP 0 到达作业点时间
-    UP_TIME     TIMESTAMP 0 吊起时刻
-    LEAVE_TIME  TIMESTAMP 0 离开作业点时间
-    DOWN_TIME   TIMESTAMP 0 放下时刻
-    WORK_TM     DECIMAL 8   作业时长（秒）
-    PREPARE_TM  DECIMAL 8   准备时长（秒）
-    UP_TM       DECIMAL 8   吊起时长（秒）
-    AVOID_TM    DECIMAL 8   避让时长（秒）
-```
-
-## 2、CRANE_WORK_MIN_TM  行车各工位点间最小作业时长
-```sql
-    SD_ID           INTEGER     序号  自增
-    START_DEST_LOC  VARCHAR 20  路径
-    MIN_TM          DECIMAL 8   最小作业时长（秒）
-    KUANO           DECIMAL 6   跨号
-```
-
+## 3.1 注解作用
++ **@JsonFormat**   `格式化从后台向前台传递日期值` 
++ **@DateTimeFormat**   `格式化接收从页面传到后台的日期值` 
