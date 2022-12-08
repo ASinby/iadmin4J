@@ -2,5 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sinby.iadmin4J.dao.MdRhCurrentDao">
-
+    <!-- 修改并计算 -->
+    <update id="updateBySV">
+        UPDATE DB_USER.MD_RH_CURRENT
+        SET SET_O2 = #{setO2},
+            BLOW_O2_MODE = #{blowO2Mode},
+            TM = CURRENT_TIMESTAMP,
+            DO_CALC_FLAG = '1',
+            VERSION1 = VERSION1 + 1
+        WHERE STATION1 = #{station1} AND VERSION1 = #{version1}
+    </update>
 </mapper>

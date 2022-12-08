@@ -41,8 +41,8 @@ public class TempForecastController {
 
     @ApiOperation("获取吹氧信息，通过工位号")
     @ApiImplicitParams({@ApiImplicitParam(name = "station1",value = "工位号")})
-    @GetMapping("/getBlastOxyInfo")
-    public ResultData getBlastOxyInfo(@RequestParam String station1) {
+    @GetMapping("/getBlowingOxygen")
+    public ResultData getBlowingOxygen(@RequestParam String station1) {
         ResultData resultData = new ResultData();
 
         QueryWrapper queryWrapper = new QueryWrapper();
@@ -135,8 +135,8 @@ public class TempForecastController {
 
     @ApiOperation("获取温度趋势数据，通过工位号")
     @ApiImplicitParams({@ApiImplicitParam(name = "station1",value = "工位号")})
-    @GetMapping("/getTempData")
-    public ResultData getTempData(@RequestParam String station1) {
+    @GetMapping("/getActualTemp")
+    public ResultData getActualTemp(@RequestParam String station1) {
         ResultData resultData = new ResultData();
 
         QueryWrapper queryWrapper = new QueryWrapper();

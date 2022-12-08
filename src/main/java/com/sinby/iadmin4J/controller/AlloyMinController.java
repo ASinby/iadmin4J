@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sinby.iadmin4J.entity.MdAlloySetEntity;
 import com.sinby.iadmin4J.entity.MdBunkerInfoEntity;
 import com.sinby.iadmin4J.entity.MdRhCurrentEntity;
-import com.sinby.iadmin4J.entity.MdWasteGasEntity;
 import com.sinby.iadmin4J.pojo.ResultData;
 import com.sinby.iadmin4J.service.MdAlloySetService;
 import com.sinby.iadmin4J.service.MdBunkerInfoService;
@@ -14,10 +13,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,8 +84,8 @@ public class AlloyMinController {
 
     @ApiOperation("获取合金计算结果信息，通过工位号")
     @ApiImplicitParams({@ApiImplicitParam(name = "station1",value = "工位号")})
-    @GetMapping("/getGasFlowRate")
-    public ResultData getGasFlowRate(@RequestParam String station1) {
+    @GetMapping("/getAlloyCalcResult")
+    public ResultData getAlloyCalcResult(@RequestParam String station1) {
         ResultData resultData = new ResultData();
 
         QueryWrapper queryWrapper = new QueryWrapper();
@@ -129,6 +125,36 @@ public class AlloyMinController {
 
         resultData.setData(rows);
 
+        return resultData;
+    }
+
+    @ApiOperation("修改元素信息")
+    @ApiImplicitParams({@ApiImplicitParam(name = "mdAlloySetEntity",value = "元素设定实体类")})
+    @PutMapping("/updateElementInfo")
+    public ResultData updateElementInfo(@RequestBody MdAlloySetEntity mdAlloySetEntity) {
+        ResultData resultData = new ResultData();
+        resultData.setCode(500);
+        resultData.setMessage("暂未开发");
+        return resultData;
+    }
+
+    @ApiOperation("修改合金计算结果")
+    @ApiImplicitParams({@ApiImplicitParam(name = "mdBunkerInfoEntity",value = "计算结果实体类")})
+    @PutMapping("/updateAlloyCalcResult")
+    public ResultData updateAlloyCalcResult(@RequestBody MdBunkerInfoEntity mdBunkerInfoEntity) {
+        ResultData resultData = new ResultData();
+        resultData.setCode(500);
+        resultData.setMessage("暂未开发");
+        return resultData;
+    }
+
+    @ApiOperation("修改脱氧铝、加热铝")
+    @ApiImplicitParams({@ApiImplicitParam(name = "deoAl",value = "脱氧铝"),@ApiImplicitParam(name = "heatAl",value = "加热铝")})
+    @PutMapping("/updateAlNums")
+    public ResultData updateAlNums(@RequestParam String deoAl,@RequestParam String heatAl) {
+        ResultData resultData = new ResultData();
+        resultData.setCode(500);
+        resultData.setMessage("暂未开发");
         return resultData;
     }
 }

@@ -12,5 +12,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface MdRhCurrentDao extends BaseMapper<MdRhCurrentEntity> {
-	
+	public boolean updateBySV(MdRhCurrentEntity mdRhCurrentEntity);
 }

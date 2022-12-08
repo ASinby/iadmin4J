@@ -64,4 +64,15 @@ public class UserController {
 
         return resultData;
     }
+
+    @ApiOperation("安全退出")
+    @GetMapping("/logout")
+    public ResultData logout() {
+        ResultData resultData = new ResultData();
+
+        resultData.setCode(200);
+        resultData.setMessage("退出成功！");
+
+        return resultData;
+    }
 }

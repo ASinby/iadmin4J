@@ -41,7 +41,7 @@ public class DecarCalcController {
     @ApiOperation("获取废气流量曲线图数据接口，通过工位号")
     @ApiImplicitParams({@ApiImplicitParam(name = "station1",value = "工位号")})
     @GetMapping("/getGasFlowRate")
-    public ResultData getGasFlowRate(@RequestParam String station1) {
+    public ResultData getGasFlowRate(@RequestParam("station1") String station1) {
         ResultData resultData = new ResultData();
 
         QueryWrapper queryWrapper = new QueryWrapper();

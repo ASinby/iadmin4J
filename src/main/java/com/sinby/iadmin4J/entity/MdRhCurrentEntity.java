@@ -129,5 +129,12 @@ public class MdRhCurrentEntity implements Serializable {
 	 * 
 	 */
 	private String alloyAllCost;
-
+	/**
+	 * 是否开始计算标志 0否  1是  默认0
+	 */
+	private String doCalcFlag;
+	/**
+	 * 记录版本号，防止出现“不可重复读”，单调增
+	 */
+	private Integer version1;
 }

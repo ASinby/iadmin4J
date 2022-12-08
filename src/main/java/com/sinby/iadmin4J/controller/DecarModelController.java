@@ -38,8 +38,8 @@ public class DecarModelController {
 
     @ApiOperation("获取碳和游离氧数据，通过工位号")
     @ApiImplicitParams({@ApiImplicitParam(name = "station1",value = "工位号")})
-    @GetMapping("/getElementInfo")
-    public ResultData getElementInfo(@RequestParam String station1) {
+    @GetMapping("/getOutCOxygen")
+    public ResultData getOutCOxygen(@RequestParam String station1) {
         ResultData resultData = new ResultData();
 
         QueryWrapper queryWrapper = new QueryWrapper();
