@@ -37,7 +37,8 @@ public class RhCurrentController {
             re = rhCurrentService.getOne( queryWrapper );
 
             result.setCode(200);
-            result.setMessage("");
+            if ( re == null )
+                result.setMessage("暂无数据！");
         } catch (Exception e) {
             e.printStackTrace();
             result.setCode(500);
