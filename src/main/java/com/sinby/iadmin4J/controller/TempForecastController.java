@@ -1,8 +1,7 @@
 package com.sinby.iadmin4J.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.sinby.iadmin4J.entity.MdRhCurrentEntity;
-import com.sinby.iadmin4J.entity.MdWasteGasEntity;
+import com.sinby.iadmin4J.entity.*;
 import com.sinby.iadmin4J.pojo.ResultData;
 import com.sinby.iadmin4J.service.MdMataddRhService;
 import com.sinby.iadmin4J.service.MdOutAlloyService;
@@ -96,7 +95,7 @@ public class TempForecastController {
         QueryWrapper queryWrapper = new QueryWrapper();
 
         MdRhCurrentEntity mdRhCurrentEntity = new MdRhCurrentEntity();
-        List<MdWasteGasEntity> rows = new ArrayList<>();
+        List<MdMataddRhEntity> rows = new ArrayList<>();
 
         try {
             // 1、根据工位号，查询出当前最新一炉信息，如计划号或是处理号
@@ -143,7 +142,7 @@ public class TempForecastController {
         QueryWrapper queryWrapper = new QueryWrapper();
 
         MdRhCurrentEntity mdRhCurrentEntity = new MdRhCurrentEntity();
-        List<MdWasteGasEntity> rows = new ArrayList<>();
+        List<MdOutTempEntity> rows = new ArrayList<>();
 
         try {
             // 1、根据工位号，查询出当前最新一炉信息，如计划号或是处理号
@@ -190,7 +189,7 @@ public class TempForecastController {
         QueryWrapper queryWrapper = new QueryWrapper();
 
         MdRhCurrentEntity mdRhCurrentEntity = new MdRhCurrentEntity();
-        List<MdWasteGasEntity> rows = new ArrayList<>();
+        List<MdOutAlloyEntity> rows = new ArrayList<>();
 
         try {
             // 1、根据工位号，查询出当前最新一炉信息，如计划号或是处理号

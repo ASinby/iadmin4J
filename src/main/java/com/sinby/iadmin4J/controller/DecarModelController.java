@@ -1,6 +1,7 @@
 package com.sinby.iadmin4J.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.sinby.iadmin4J.entity.MdOutCoxyEntity;
 import com.sinby.iadmin4J.entity.MdRhCurrentEntity;
 import com.sinby.iadmin4J.entity.MdWasteGasEntity;
 import com.sinby.iadmin4J.pojo.MdRhCurrent;
@@ -44,7 +45,7 @@ public class DecarModelController {
         QueryWrapper queryWrapper = new QueryWrapper();
 
         MdRhCurrentEntity mdRhCurrentEntity = new MdRhCurrentEntity();
-        List<MdWasteGasEntity> rows = new ArrayList<>();
+        List<MdOutCoxyEntity> rows = new ArrayList<>();
 
         try {
             // 1、根据工位号，查询出当前最新一炉信息，如计划号或是处理号
