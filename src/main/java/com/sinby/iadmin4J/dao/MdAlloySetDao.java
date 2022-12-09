@@ -12,5 +12,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface MdAlloySetDao extends BaseMapper<MdAlloySetEntity> {
-	
+	public boolean updateByPFV(MdAlloySetEntity mdAlloySetEntity);
 }

@@ -3,4 +3,35 @@
 
 <mapper namespace="com.sinby.iadmin4J.dao.MdAlloySetDao">
 
+    <!-- 修改flag=5\6 的元素值 -->
+    <update id="updateByPFV">
+        UPDATE DB_USER.MD_ALLOY_SET SET
+            C_VAL = #{cVal},
+            SI_VAL = #{siVal},
+            MN_VAL = #{mnVal},
+            P_VAL = #{pVal},
+            S_VAL = #{sVal},
+            MG_VAL = #{mgVal},
+            CR_VAL = #{crVal},
+            NI_VAL = #{niVal},
+            MO_VAL = #{moVal},
+            CU_VAL = #{cuVal},
+            AL_VAL = #{alVal},
+            TI_VAL = #{tiVal},
+            V_VAL = #{vVal},
+            NB_VAL = #{nbVal},
+            W_VAL = #{wVal},
+            B_VAL = #{bVal},
+            CA_VAL = #{caVal},
+            SB_VAL = #{sbVal},
+            AS_VAL = #{asVal},
+            SN_VAL = #{snVal},
+            PB_VAL = #{pbVal},
+            BI_VAL = #{biVal},
+            CE_VAL = #{ceVal},
+            CO_VAL = #{coVal},
+            N_VAL = #{nVal},
+            VERSION1 = VERSION1 + 1
+        WHERE PLNO = #{plno} AND FLAG = #{flag} AND VERSION1 = #{version1}
+    </update>
 </mapper>

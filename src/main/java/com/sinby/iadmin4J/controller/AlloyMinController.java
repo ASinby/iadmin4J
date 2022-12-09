@@ -1,6 +1,7 @@
 package com.sinby.iadmin4J.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.sinby.iadmin4J.entity.MdAlloySetEntity;
 import com.sinby.iadmin4J.entity.MdBunkerInfoEntity;
 import com.sinby.iadmin4J.entity.MdRhCurrentEntity;
@@ -133,8 +134,42 @@ public class AlloyMinController {
     @PutMapping("/updateElementInfo")
     public ResultData updateElementInfo(@RequestBody MdAlloySetEntity mdAlloySetEntity) {
         ResultData resultData = new ResultData();
-        resultData.setCode(500);
-        resultData.setMessage("暂未开发");
+
+        QueryWrapper queryWrapper = new QueryWrapper();
+        UpdateWrapper updateWrapper = new UpdateWrapper();
+
+        try {
+            // 1、修改
+            // 1.1校验版本
+            queryWrapper.eq("PLNO",mdAlloySetEntity.getPlno());
+            queryWrapper.eq("FLAG",mdAlloySetEntity.getFlag());
+            queryWrapper.eq("VERSION1",mdAlloySetEntity.getVersion1());
+
+            int count = mdAlloySetService.count(queryWrapper);
+            if (count <= 0) {
+                resultData.setCode(500);
+                resultData.setMessage("提交数据不一致，请刷新后，再操作！");
+                return resultData;
+            }
+            // 1.2update
+            boolean result = mdAlloySetService.updateById(mdAlloySetEntity);
+            if (!result) {
+                resultData.setCode(500);
+                resultData.setMessage("修改异常，请刷新后，再操作！");
+                return resultData;
+            }
+
+            // 2、返回最新
+
+            resultData.setCode(200);
+            resultData.setMessage("修改成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            resultData.setCode(500);
+            resultData.setMessage(e.toString());
+        }
+
         return resultData;
     }
 

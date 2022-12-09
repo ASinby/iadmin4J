@@ -160,5 +160,8 @@ public class MdAlloySetEntity implements Serializable {
 	@JsonFormat(pattern = "HH:mm",timezone = "GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date tm;
-
+	/**
+	 * 记录版本号，单调增。防止前端修改时出现“不可重复读”。每一新炉次开始，采集数据程序需将其置为0。默认为0
+	 */
+	private Integer version1;
 }
