@@ -135,6 +135,7 @@ public class AlloyMinController {
     public ResultData updateElementInfo(@RequestBody MdAlloySetEntity mdAlloySetEntity) {
         ResultData resultData = new ResultData();
 
+        List<MdAlloySetEntity> rows = new ArrayList<>();
         QueryWrapper queryWrapper = new QueryWrapper();
         UpdateWrapper updateWrapper = new UpdateWrapper();
 
@@ -160,6 +161,10 @@ public class AlloyMinController {
             }
 
             // 2、返回最新
+            queryWrapper.clear();
+            queryWrapper.eq("PLNO",mdAlloySetEntity.getPlno());
+            queryWrapper.orderByAsc("FLAG");
+            rows = mdAlloySetService.list(queryWrapper);
 
             resultData.setCode(200);
             resultData.setMessage("修改成功！");
@@ -169,6 +174,7 @@ public class AlloyMinController {
             resultData.setCode(500);
             resultData.setMessage(e.toString());
         }
+        resultData.setData(rows);
 
         return resultData;
     }
