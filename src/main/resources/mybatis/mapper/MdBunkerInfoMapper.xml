@@ -2,5 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sinby.iadmin4J.dao.MdBunkerInfoDao">
-
+    <!-- 修改合金计算结果，通过料仓号和处理号 -->
+    <update id="updateCalcResultByBT">
+        UPDATE DB_USER.MD_BUNKER_INFO
+        SET
+            ${fieldName} = #{setVal}
+        WHERE BUNKER_NO = #{bunkerNo} AND TREAT_NO = #{treatNo}
+    </update>
 </mapper>

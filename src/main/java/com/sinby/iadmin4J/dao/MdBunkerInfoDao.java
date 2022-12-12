@@ -4,6 +4,8 @@ import com.sinby.iadmin4J.entity.MdBunkerInfoEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Map;
+
 /**
  * 料仓信息
  * 
@@ -12,5 +14,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface MdBunkerInfoDao extends BaseMapper<MdBunkerInfoEntity> {
-	
+    public boolean updateCalcResultByBT(Map<String,Object> param);
 }
